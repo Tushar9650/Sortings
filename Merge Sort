@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+void merge(int *arr,int s,int e){
+    int mid = (s+e)/2;// find the mid
+    int len1 = mid-s+1;
+    int len2 = e-mid;
+    
+    int *arr1 = new int[len1];// divide the while array and store in two arrays
+    int *arr2 = new int[len2];
+    int mainIndex = s;
+    
+    for(int i = 0;i<len1;i++)  // assign the value in two arrrays
+     arr1[i] = arr[mainIndex++];
+    
+    mainIndex = mid+1;
+    
+    for(int i = 0;i<len2;i++) // assign the values
+     arr2[i] = arr[mainIndex++];
+     
+    int indx1 = 0, indx2 = 0;
+    mainIndex = s;
+                             // apply the merge sort on the two array
+    while(indx1 < len1 &&  indx2 < len2){
+        if(arr1[indx1] < arr2[indx2])
+         arr[mainIndex++] = arr1[indx1++];
+        else
+         arr[mainIndex++] = arr2[indx2++];
+     } 
+    
+    while(indx1 < len1)
+     arr[mainIndex++] = arr1[indx1++];
+     
+    while(indx2 < len2)
+    arr[mainIndex++] = arr2[indx2++];     
+}
+
+void mergeSort(int *arr,int s,int e){
+    if(s >= e)
+     return;
+    
+    int mid = (s+e)/2;
+    
+    
+    mergeSort(arr,s,mid);// divide  the arrays into parts
+    mergeSort(arr,mid+1,e);
+    
+    merge(arr,s,e); // conquer the divided arrays
+}
+
+int main()
+{
+    int arr[]={1,4,3,2,5,6,5,22,9};
+    int size = sizeof(arr)/sizeof(arr[0]);
+    
+    mergeSort(arr,0,size-1);
+
+    for(int i = 0;i < size;i++)
+     cout<<arr[i]<<" ";
+
+    return 0;
+}
